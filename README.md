@@ -43,6 +43,21 @@ The value for `$result` would be `'def'`.
 
 If you want to reset all the stubbed values, call `FunctionMock::resetStubs()`, which clears out all the stubbed value for each of the mocks. 
 
+## Mocking functions for behavior verification
+
+To create a mock for a function use `FunctionMock::mock(...)` method. This makes function register each time it's being called, making it possible to verify behavior of code being tested.
+    
+    e.g. FunctionMock::mock('external_method');
+
+Now if tested code has `external_method()` called as a result of certain logic this can be verified afterwards by calling `FunctionMock::verifyMockTimesCalled('external_method', [$param, ...]);`.
+
+    external_method($param1, $param2);
+    external_method($param1, $param2);
+    
+    $timesCalled = FunctionMock::verifyMockTimesCalled('external_method', $param1, $param2);
+
+`$timesCalled` will be equal to `2`.
+
 ## Putting it all together - a PHPUnit example 
 
 Let's use an example out of Drupal's Block module:
